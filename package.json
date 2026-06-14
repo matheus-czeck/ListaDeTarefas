@@ -1,0 +1,33 @@
+{
+  "name": "tarefas",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Este e um projeto de treino, onde consiste na criacao de uma lista de tarefas.Inicialmente as tarefas terao curta duracao, podendo ser definidas por um timer. Futuramente ela podera ser uma lista de a fazeres de longa duracao.",
+  "main": "app.ts",
+  "scripts": {
+    "dev": "nodemon ./server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matheus-czeck/ListaDeTarefas.git"
+  },
+  "author": "matheus-czeck",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matheus-czeck/ListaDeTarefas/issues"
+  },
+  "homepage": "https://github.com/matheus-czeck/ListaDeTarefas#readme",
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.9.2",
+    "nodemon": "^3.1.14",
+    "sequelize-cli": "^6.6.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "sequelize": "^6.37.8",
+    "sqlite3": "^6.0.1"
+  }
+}
