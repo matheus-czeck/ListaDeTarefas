@@ -5,7 +5,7 @@ const app = express()
 
 app.use(express.json());
 app.use("/categories", categoryRoutes)
-app.use("/tarefas", taskyRoutes)
+app.use("/task", taskyRoutes)
 
 
 
