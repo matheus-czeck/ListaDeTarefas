@@ -1,0 +1,77 @@
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  background: linear-gradient(135deg, rgb(226, 226, 226) 0%, #a3c1f3 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+::ng-deep .login-card .p-card {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+}
+
+
+::ng-deep .login-card .p-card-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #a3c1f3;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #666;
+}
+
+
+.input-group input,
+::ng-deep .input-group .p-password,
+::ng-deep .input-group .p-password input {
+  width: 100% !important;
+}
+
+
+.btn-submit {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  margin-top: 1rem;
+  transition: background-color 0.2s;
+}
+
+.toggle-mode {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.toggle-mode a {
+  font-size: 0.9rem;
+  color: #007ad9;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.toggle-mode a:hover {
+  text-decoration: underline;
+}

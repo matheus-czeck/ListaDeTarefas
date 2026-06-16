@@ -1,0 +1,39 @@
+<div class="login-container">
+  <p-card [header]="isRegisterMode ? 'Criar Conta' : 'Entrar'" class="login-card">
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      @if (isRegisterMode) {
+        <div class="input-group">
+          <label for="name">Nome Completo</label>
+          <input pInputText id="name" formControlName="name" type="text" placeholder="Seu nome completo" />
+        </div>
+      }
+      
+      <div class="input-group">
+        <label for="email">E-mail</label>
+        <input pInputText id="email" formControlName="email" type="email" placeholder="seu@email.com" />
+      </div>
+
+      <div class="input-group">
+        <label for="password">Senha</label>
+        <p-password id="password" formControlName="password" [toggleMask]="true" [feedback]="false" placeholder="Sua senha"></p-password>
+      </div>
+
+      @if (isRegisterMode) {
+        <div class="input-group">
+          <label for="confirmPassword">Confirmar Senha</label>
+          <p-password id="confirmPassword" formControlName="confirmPassword" [toggleMask]="true" [feedback]="false" placeholder="Repita a senha"></p-password>
+        </div>
+      }
+
+      <button pButton type="submit" [label]="isRegisterMode ? 'Cadastrar' : 'Entrar'" [disabled]="loginForm.invalid" class="btn-submit"></button>
+      
+      <div class="toggle-mode">
+        <a href="javascript:void(0)" (click)="toggleMode()">
+          {{ isRegisterMode ? 'Já tem uma conta? Entre aqui' : 'Não tem conta? Registre-se' }}
+        </a>
+      </div>
+
+    </form>
+  </p-card>
+</div>
