@@ -1,1 +1,129 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <div class="header-logo">
+      <i class="pi pi-calendar-clock"></i>
+      <h1>Tarefas Dashboard</h1>
+    </div>
+    <div class="header-user-actions">
+      <span
+        >Olá, <strong>{{ loggedUser?.name }}</strong></span
+      >
+      <button
+        icon="pi pi-sign-out"
+        class="btn-logout"
+        (click)="logout()"
+        title="Sair"
+      >
+        sair
+      </button>
+    </div>
+  </header>
+
+  <main class="dashboard-main">
+    <section class="metrics-grid">
+      <div class="metric-col">
+        <p-card styleClass="card-metric card-pending">
+          <div class="metric-content">
+            <div class="metric-data">
+              <span class="metric-label">Tarefas Pendentes</span>
+              <span class="metric-value">{{ metrics.pendentes }}</span>
+            </div>
+            <div class="metric-icon icon-bg-pending">
+              <i class="pi pi-clock"></i>
+            </div>
+          </div>
+        </p-card>
+      </div>
+
+      <div class="metric-col">
+        <p-card styleClass="card-metric card-completed">
+          <div class="metric-content">
+            <div class="metric-data">
+              <span class="metric-label">Concluídas</span>
+              <span class="metric-value">{{ metrics.concluidas }}</span>
+            </div>
+            <div class="metric-icon icon-bg-completed">
+              <i class="pi pi-check-circle"></i>
+            </div>
+          </div>
+        </p-card>
+      </div>
+
+      <div class="metric-col">
+        <p-card styleClass="card-metric card-delayed">
+          <div class="metric-content">
+            <div class="metric-data">
+              <span class="metric-label">Atrasadas</span>
+              <span class="metric-value">{{ metrics.atrasadas }}</span>
+            </div>
+            <div class="metric-icon icon-bg-delayed">
+              <i class="pi pi-exclamation-triangle"></i>
+            </div>
+          </div>
+        </p-card>
+      </div>
+    </section>
+
+    <section class="workspace-grid">
+      <div class="sidebar-col">
+        <p-card header="Minhas Categorias" styleClass="workspace-card">
+          <p class="card-subtitle">Gerencie suas tags de tarefas</p>
+
+          <form
+            [formGroup]="categoryForm"
+            (ngSubmit)="addCategories()"
+            class="category-form mb-4"
+          >
+            <div class="p-inputgroup">
+              <input
+                pInputText
+                formControlName="name"
+                placeholder="Nova Categoria..."
+                class="w-full p-inputtext-sm"
+              />
+              <span class="p-inputgroup-addon bg-white border-y border-left color-container">
+                <p>Color:</p>
+                <p-colorPicker
+                  formControlName="color"
+                  appendTo="body"
+                ></p-colorPicker>
+              </span>
+              <button
+                pButton
+                type="submit"
+                icon="pi pi-plus"
+                class="p-button-sm"
+                [disabled]="categoryForm.invalid"
+              >
+                Adicionar
+              </button>
+            </div>
+          </form>
+          <div class="categories-list">
+            @for (category of categories; track category.id) {
+              <div class="category-item">
+                <span
+                  class="color-indicator"
+                  [style.backgroundColor]="category.color"
+                ></span>
+                <span class="category-name">{{ category.name }} </span>
+              </div>
+            } @empty {
+              <div class="empty-state-box">Nenhuma categoria criada.</div>
+            }
+          </div>
+        </p-card>
+      </div>
+
+      <div class="content-col">
+        <p-card header="Minhas Tarefas" styleClass="workspace-card">
+          <p class="card-subtitle">Visualize e gerencie seus prazos</p>
+
+          <div class="empty-state-box large-box">
+            Você não tem tarefas agendadas para hoje.
+          </div>
+        </p-card>
+      </div>
+    </section>
+  </main>
+</div>

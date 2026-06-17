@@ -22,7 +22,17 @@
       @if (isRegisterMode) {
         <div class="input-group">
           <label for="confirmPassword">Confirmar Senha</label>
-          <p-password id="confirmPassword" formControlName="confirmPassword" [toggleMask]="true" [feedback]="false" placeholder="Repita a senha"></p-password>
+          <p-password 
+          id="confirmPassword" 
+          formControlName="confirmPassword" 
+          [toggleMask]="true" 
+          [feedback]="false" 
+          placeholder="Repita a senha"
+          >
+          </p-password>
+          @if (loginForm.hasError('passwordMismatch') && loginForm.get('confirmPassword')?.touched) {
+            <small> As senhas nao coincidem.</small>
+          }
         </div>
       }
 
