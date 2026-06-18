@@ -5,7 +5,7 @@
       <h1>Tarefas Dashboard</h1>
     </div>
     <div class="header-user-actions">
-      <span
+      <span class="welcome"
         >Olá, <strong>{{ loggedUser?.name }}</strong></span
       >
       <button
@@ -26,7 +26,7 @@
           <div class="metric-content">
             <div class="metric-data">
               <span class="metric-label">Tarefas Pendentes</span>
-              <span class="metric-value">{{ metrics.pendentes }}</span>
+              <span class="metric-value">{{ metrics.pending }}</span>
             </div>
             <div class="metric-icon icon-bg-pending">
               <i class="pi pi-clock"></i>
@@ -40,7 +40,7 @@
           <div class="metric-content">
             <div class="metric-data">
               <span class="metric-label">Concluídas</span>
-              <span class="metric-value">{{ metrics.concluidas }}</span>
+              <span class="metric-value">{{ metrics.completed }}</span>
             </div>
             <div class="metric-icon icon-bg-completed">
               <i class="pi pi-check-circle"></i>
@@ -54,7 +54,7 @@
           <div class="metric-content">
             <div class="metric-data">
               <span class="metric-label">Atrasadas</span>
-              <span class="metric-value">{{ metrics.atrasadas }}</span>
+              <span class="metric-value">{{ metrics.delayed }}</span>
             </div>
             <div class="metric-icon icon-bg-delayed">
               <i class="pi pi-exclamation-triangle"></i>
@@ -81,7 +81,9 @@
                 placeholder="Nova Categoria..."
                 class="w-full p-inputtext-sm"
               />
-              <span class="p-inputgroup-addon bg-white border-y border-left color-container">
+              <span
+                class="p-inputgroup-addon bg-white border-y border-left color-container"
+              >
                 <p>Color:</p>
                 <p-colorPicker
                   formControlName="color"
@@ -119,11 +121,152 @@
         <p-card header="Minhas Tarefas" styleClass="workspace-card">
           <p class="card-subtitle">Visualize e gerencie seus prazos</p>
 
-          <div class="empty-state-box large-box">
-            Você não tem tarefas agendadas para hoje.
+          <button
+            pButton
+            label="Nova Tarefa"
+            icon="pi pi-plus"
+            class="p-button-sm font-bold"
+            (click)="openTaskModal()"
+          ></button>
+
+          <div class="tasks-list">
+            @for (task of tasks; track task.id) {
+              <div
+                class="task-item"
+                [class.task-completed]="task.status === 'COMPLETED'"
+                [style.border]="'1px solid' + getPriorityColor(task.priority)"
+              >
+                <div class="task-info">
+                  <span class="task-title">{{ task.title }}</span>
+                  <p class="task-desc">{{ task.description }}</p>
+                  <div class="task-tags">
+                    <span
+                      class="badge-category"
+                      [style.backgroundColor]="task.category?.color"
+                    >
+                      {{ task.category?.name }}
+                    </span>
+                    <span class="badge-date">
+                      <i class="pi pi-calendar mr-1"></i
+                      >{{ task.dueDate | date: "dd/MM/yyyy HH:mm" }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="task-actions">
+                  <p-tag
+                    [severity]="
+                      task.priority === 'HIGH'
+                        ? 'danger'
+                        : task.priority === 'MEDIUM'
+                          ? 'warn'
+                          : 'info'
+                    "
+                    [value]="taskPriorityTranslate(task.priority)"
+                  ></p-tag>
+                </div>
+              </div>
+            } @empty {
+              <div class="empty-state-box large-box">
+                Você não tem tarefas agendadas. Clique em "Nova Tarefa" para
+                começar!
+              </div>
+            }
           </div>
         </p-card>
       </div>
+      <p-dialog
+        header="Criar Nova Tarefa"
+        [(visible)]="displayTaskModal"
+        [modal]="true"
+        [style]="{ width: '450px' }"
+        [draggable]="false"
+        [resizable]="false"
+      >
+        <form
+          [formGroup]="taskForm"
+          (ngSubmit)="addTask()"
+          class="task-modal-form"
+        >
+          <div class="form-field">
+            <label for="taskTitle">Título da Tarefa*</label>
+            <input
+              pInputText
+              id="taskTitle"
+              formControlName="title"
+              placeholder="Ex: Estudar Angular Signals"
+              class="w-full"
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="taskDesc">Descrição / Detalhes</label>
+            <textarea
+              pInputText
+              id="taskDesc"
+              formControlName="description"
+              rows="3"
+              placeholder="Insira anotações sobre a tarefa..."
+              class="w-full style-textarea"
+            ></textarea>
+          </div>
+
+          <div class="form-field">
+            <label for="taskDate">Data e Hora de Entrega*</label>
+            <p-calendar
+              id="taskDate"
+              formControlName="dueDate"
+              [showTime]="true"
+              [showIcon]="true"
+              dateFormat="dd/mm/yy"
+              appendTo="body"
+              styleClass="w-full"
+            ></p-calendar>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-field half-width">
+              <label>Prioridade*</label>
+              <p-dropdown
+                [options]="priorityLabel"
+                formControlName="priority"
+                appendTo="body"
+                styleClass="w-full"
+              ></p-dropdown>
+            </div>
+
+            <div class="form-field half-width">
+              <label>Categoria*</label>
+              <p-dropdown
+                [options]="categories"
+                formControlName="categoryId"
+                optionLabel="name"
+                optionValue="id"
+                placeholder="Selecione..."
+                appendTo="body"
+                styleClass="w-full"
+              ></p-dropdown>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button
+              pButton
+              type="button"
+              label="Cancelar"
+              class="p-button-text p-button-secondary"
+              (click)="displayTaskModal = false"
+            ></button>
+            <button
+              pButton
+              type="submit"
+              label="Salvar Tarefa"
+              class="p-button-primary font-bold"
+              [disabled]="taskForm.invalid"
+            ></button>
+          </div>
+        </form>
+      </p-dialog>
     </section>
   </main>
 </div>
