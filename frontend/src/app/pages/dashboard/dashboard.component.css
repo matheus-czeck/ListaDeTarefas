@@ -294,7 +294,7 @@
 .task-info {
   display: flex;
   flex-direction: column;
-  gap: 0.40rem;
+  gap: 0.4rem;
 }
 
 .task-title {
@@ -320,12 +320,12 @@
   color: #ffffff;
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
-  font-size: .9rem;
+  font-size: 0.9rem;
   font-weight: 600;
 }
 
 .badge-date {
-  font-size: .9rem;
+  font-size: 0.9rem;
   color: #91969c;
   display: inline-flex;
   align-items: center;
@@ -374,4 +374,36 @@
   margin-top: 1rem;
   border-top: 1px solid #e2e8f0;
   padding-top: 1rem;
+}
+.priority{
+  display: flex;
+  justify-content: center;
+}
+.task-actions{
+  display: grid;
+  gap: 1.25rem;
+}
+.buttons-action{
+  display: flex;
+  justify-content: end;
+  align-items: end;
+  gap: 1rem;
+}
+/* Efeito visual para tarefas concluídas */
+.task-completed {
+  background-color: #d1d1d1 !important; /* Fundo cinza claro */
+  border: none !important;
+}
+.task-completed .priority-box {
+  display: none;
+}
+
+.task-completed .task-title {
+  text-decoration: line-through;
+  color: #94a3b8; /* Texto apagadinho */
+}
+
+.task-completed .task-desc {
+  text-decoration: line-through;
+  color: #cbd5e1;
 }

@@ -173,6 +173,28 @@ export class DashboardComponent {
     this.router.navigate(['/login']);
   }
 
+  public alterStatusTask(task: any): void {
+    const newStatus = task.status === 'PENDING' ? 'COMPLETED' : 'PENDING';
+
+    this.taskService.update(task.id, { status: newStatus }).subscribe({
+      next: () => {
+        this.loadTask();
+      },
+      error: (err) => alert(err.error?.error || 'Erro ao atualizar tarefa'),
+    });
+  }
+
+  public deleteTask(taskId: number): void {
+    if (!confirm('Tem certeza que deseja excluir esta tarefa?')) return;
+
+    this.taskService.delete(taskId).subscribe({
+      next: () => {
+        this.loadTask();
+      },
+      error: (err) => alert(err.error?.error || 'Erro ao deletar tarefa.'),
+    });
+  }
+
   getPriorityColor(priority: string): string {
     switch (priority?.toUpperCase()) {
       case 'HIGH':

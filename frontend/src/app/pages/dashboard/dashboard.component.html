@@ -154,7 +154,8 @@
                 </div>
 
                 <div class="task-actions">
-                  <p-tag
+                  <div class="priority">
+                    <p-tag
                     [severity]="
                       task.priority === 'HIGH'
                         ? 'danger'
@@ -163,7 +164,39 @@
                           : 'info'
                     "
                     [value]="taskPriorityTranslate(task.priority)"
+                    styleClass="mr-2"
+                    class="priority-box"
                   ></p-tag>
+                  </div>
+                  <div class="buttons-action">
+                    <button
+                      pButton
+                      [icon]="
+                        task.status === 'COMPLETED'
+                          ? 'pi pi-refresh'
+                          : 'pi pi-check'
+                      "
+                      [class]="
+                        task.status === 'COMPLETED'
+                          ? 'p-button-rounded p-button-secondary p-button-sm mr-2'
+                          : 'p-button-rounded p-button-success p-button-sm mr-2'
+                      "
+                      [title]="
+                        task.status === 'COMPLETED'
+                          ? 'Refazer Tarefa'
+                          : 'Concluir Tarefa'
+                      "
+                      (click)="alterStatusTask(task)"
+                    ></button>
+
+                    <button
+                      pButton
+                      icon="pi pi-trash"
+                      class="p-button-rounded p-button-danger p-button-sm"
+                      title="Excluir Tarefa"
+                      (click)="deleteTask(task.id)"
+                    ></button>
+                  </div>
                 </div>
               </div>
             } @empty {
